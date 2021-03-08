@@ -1,13 +1,11 @@
 # singkat.in
 ## FP Manajemen Project
-```
-Eltansha Raksa Gama       18.120955
-Frans Dedi Panjaitan			18.12.0956
-Ega Mahendra				      18.12.0959
-I Gede Bima Divantara		  18.12.0973
-Yanuar Nur Kholik			    18.12.0974
-Achmad Choirul Sholihan		18.12.0977
-```
+Eltansha Raksa Gama       18.12.0955;
+Frans Dedi Panjaitan			18.12.0956;
+Ega Mahendra				      18.12.0959;
+I Gede Bima Divantara		  18.12.0973;
+Yanuar Nur Kholik			    18.12.0974;
+Achmad Choirul Sholihan		18.12.0977;
 
 # Installation
 Menggunakan [Python](https://www.python.org/downloads/)==3.9.1
