@@ -9,7 +9,7 @@ Achmad Choirul Sholihan		18.12.0977;
 
 # Installation
 Menggunakan [Python](https://www.python.org/downloads/)==3.9.1
-Menggunakan Framwork Python [Django](https://docs.djangoproject.com/en/3.1/topics/install/)==3.1.5 atau bisa 
+Menggunakan Framwork Python [Django](https://docs.djangoproject.com/en/3.1/topics/install/)==3.1.7 atau bisa 
 ```python
 pip install django==3.1.7
 ```
