@@ -1,4 +1,5 @@
 # singkat.in
+
 ## FP Manajemen Project
 Eltansha Raksa Gama       18.12.0955;
 Frans Dedi Panjaitan			18.12.0956;
@@ -6,6 +7,12 @@ Ega Mahendra				      18.12.0959;
 I Gede Bima Divantara		  18.12.0973;
 Yanuar Nur Kholik			    18.12.0974;
 Achmad Choirul Sholihan		18.12.0977;
+
+## Deliverables
+1. [Rincian](https://github.com/yanuarkholik/url_shotener/blob/main/ManajemenProyek.pdf)
+2. [Requirements](https://github.com/yanuarkholik/url_shotener/blob/main/requirements.txt)
+3. [Web Project](https://github.com/yanuarkholik/url_shotener/tree/main/singkatin)
+4. [Web Application](https://github.com/yanuarkholik/url_shotener/tree/main/myapp)
 
 # Installation
 Menggunakan [Python](https://www.python.org/downloads/)==3.9.1
