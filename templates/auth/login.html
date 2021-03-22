@@ -1,0 +1,50 @@
+{% load static %}
+{% load crispy_forms_tags %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign in - tinyURL</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+</head>
+<body  style="background-color: #0E2A47;">
+    <nav class="navbar navbar-expand-lg navbar-dark" >
+        <div class="container py-2">
+            <a class="navbar-brand" href="{% url 'home-page' %}">T I N Y U R L</a>
+        </div>
+    </nav>
+    <div class="container pt-1 pb-5 mb-5" style="margin-top: 50px;">
+        <div class="row">
+            <div class="col-lg-6 mx-auto bg-white shadow-lg p-5" style="border-radius: 15px;">
+                <p class="text-center smaller" style="color: #0E2A47;"><b>SIGN IN</b></p>
+                <form method="POST">
+                    {% csrf_token %}
+                    <div class="py-4">
+                        {{ form.username|as_crispy_field }}
+                        <br>
+                        {{ form.password|as_crispy_field }}
+                        <br>
+                        <button type="submit" class="btn btn-primary px-5"><small class=" ">SIGN IN</small></button>
+                        <small style="font-size: small;" class="float-end">
+                            <a href="#" class="text-decoration-none"> Lupa password ?</a>
+                        </small>
+                    </div>
+                </form>
+                <hr>
+                <p class="text-center"  style="font-size:  small;">
+                    Belum punya akun? <a href="#" class="text-decoration-none">Sign up</a>
+                </p>   
+            </div>
+        </div>
+    </div>
+
+<style>
+    .asteriskField {
+        display: none;
+    }   
+</style>
+</body>
+</html>
