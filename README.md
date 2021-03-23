@@ -8,11 +8,11 @@ I Gede Bima Divantara		  18.12.0973;
 Yanuar Nur Kholik			    18.12.0974;
 Achmad Choirul Sholihan		18.12.0977;
 
-## Deliverables
-1. [Rincian](https://github.com/yanuarkholik/url_shotener/blob/main/ManajemenProyek.pdf)
-2. [Requirements](https://github.com/yanuarkholik/url_shotener/blob/main/requirements.txt)
-3. [Web Project](https://github.com/yanuarkholik/url_shotener/tree/main/singkatin)
-4. [Web Application](https://github.com/yanuarkholik/url_shotener/tree/main/myapp)
+## Deliverables 
+1. [Minggu 1](https://github.com/yanuarkholik/url_shotener/blob/main/ManajemenProyek.pdf)
+2. Minggu 2 [Web Project](https://github.com/yanuarkholik/url_shotener/tree/main/singkatin) dan [Web Application](https://github.com/yanuarkholik/url_shotener/tree/main/myapp)
+3. Minggu 3 [Templates](https://github.com/yanuarkholik/url_shotener/tree/main/templates)
+4. Minggu 4 [Main Function](https://github.com/yanuarkholik/url_shotener/blob/main/myapp/views.py)
 
 # Installation
 Menggunakan [Python](https://www.python.org/downloads/)==3.9.1
