@@ -28,11 +28,11 @@ pip install virtualenv
 *Note : aplikasi bisa berjalan tanpa virtualenv, virtualenv digunakan untuk mengoptimalkan development Python*
 #### 2. Membuat virtualenv
 ```python
-virtualenv nama_virtualenv
+virtualenv env
 ```
 #### 3. Aktivasi virtualenv
 ```python
-nama_virtualenv/Scripts/activate
+env/Scripts/activate
 ```
 #### 4. Install requirements.txt dengan command dibawah
 ```python 
@@ -44,7 +44,7 @@ pip install (nama_package==versi_package)
 ```
 Kemudian hapus paket yang error tersebut pada ```requirements.txt``` untuk meninstall via requirements, jika ingin menginstall satu-persatu bisa pakai perintah diatas
 
-#### 5. Menjalankan program
+#### 5. Run program (http://127.0.0.1:8000/)
 ```python
 python manage.py makemigrations
 python manage.py migrate # Akan memunculkan banyak "OK", berarti program tidak ada masalah
