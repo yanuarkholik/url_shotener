@@ -12,6 +12,6 @@ class ProfileAdmin(admin.ModelAdmin):
 
 @admin.register(URLs)
 class DataURL(admin.ModelAdmin):  
-    list_display = ('url', 'id')
+    list_display = ('slug', 'id')
     ordering = ('-id',)
     search_fields = []

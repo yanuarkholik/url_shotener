@@ -13,10 +13,15 @@ class Profile(models.Model):
     user        = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
     image       = models.ImageField(default='images/default.jpg/', upload_to='upload')
     deskripsi   = models.TextField(null=True, blank=True, help_text='Deskripsi singkat Profile anda**')
-    buat        = models.DateTimeField(auto_now=True)
+    slug        = models.CharField(max_length=100, blank=True, null=True)
+    buat        = models.DateTimeField(auto_now_add=True, blank=True, null=True)
     
     def __str__(self):
         return f'{self.user.username}'
+
+    def save(self, *args, **kwargs):
+        self.slug = self.user.username
+        super(Profile, self).save(*args, **kwargs)
 
     class Meta:
         verbose_name_plural = 'Data-User'
@@ -28,8 +33,11 @@ def create_or_update_user_profile(sender, instance, created, **kwargs):
     instance.profile.save()
 
 class URLs(models.Model):
+    user        = models.ForeignKey(User, on_delete=models.CASCADE, name='user', null=True, blank=True)
     url         = models.URLField()
     slug        = models.CharField(max_length=100, blank=True, null=True)
+    buat        = models.DateTimeField(auto_now_add=True, blank=True, null=True)
+
     class Meta:
         verbose_name_plural = 'Data-URL'
 
@@ -37,8 +45,3 @@ class URLs(models.Model):
         self.shortener = pyshorteners.Shortener()
         self.slug = self.shortener.tinyurl.short(self.url)
         super(URLs, self).save(*args, **kwargs)
-
-    
-    
-
-        

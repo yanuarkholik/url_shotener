@@ -41,14 +41,15 @@ class ProfileUpdateForm(forms.ModelForm):
     
     def __init__(self, *args, **kwargs):
         super(ProfileUpdateForm, self).__init__(*args, **kwargs)
-        self.helper = FormHelper()
-        self.helper.form_show_labels = False 
+        self.helper = FormHelper() 
+        self.helper.form_show_labels = False
         self.helper.form_show_errors = False
 
 class InputURLs(forms.ModelForm):
     class Meta:
         model = URLs
         fields = ['url']
+        exclude = ('user',)
 
     def __init__(self, *args, **kwargs):
         super(InputURLs, self).__init__(*args, **kwargs)
