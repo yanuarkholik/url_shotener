@@ -1,0 +1,15 @@
+{% load widget_tweaks %}
+
+
+<form method="POST" id="post-form">
+  {% csrf_token %}
+  <div class="form-group">
+    <label>Title</label>
+    <input type="text" class="form-control" id="long_url" placeholder="URL here">
+  </div>
+   <div class="form-group">
+     <label>Description</label>
+     <input type="hidden" class="form-control" id="user" value="{{ user }}">
+   </div>
+   <button type="submit" class="btn btn-primary">Submit</button>
+</form>

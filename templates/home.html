@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'index.html' %}
 {% load static %}
 {% load crispy_forms_tags %}
 
@@ -6,18 +6,7 @@
 <title>SINGKATIN - URL Shortener</title>
 {% endblock %} 
 
-{%block content %}
-<script>
-    function copyToClipboard(element) {
-      var $temp = $("<input>");
-      $("body").append($temp);
-      $temp.val($(element).text()).select();
-      document.execCommand("copy");
-      $temp.remove();
-    }
-    
-</script>
-
+{% block content %}
 <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #0E2A47;">
     <div class="container py-2">
         <a class="navbar-brand" href="{% url 'home-page' %}">S I N G K A T I N</a>
@@ -34,7 +23,7 @@
                         </a>
                         <ul class="dropdown-menu  dropdown-menu-end" aria-labelledby="dropdownProfile">
                             <li><a class="dropdown-item" href="{% url 'profile-page' %}">Profile</a></li>
-                            <li><a class="dropdown-item" href="{% url 'logout' %}">Logout</a></li>
+                            <li><a class="dropdown-item" href="{% url 'logout-page' %}">Logout</a></li>
                         </ul>
                     </div>
                 </li>
@@ -71,39 +60,37 @@
             </div>
         </div>
     </div> 
-    <div class="container pt-1 pb-5 mb-5" style="margin-top: 100px;">
-        <div class="row">
+    <div class="container pt-1 pb-5" style="margin-top: 100px;">
+        <div class="row" >
             <div class="col-lg-12 bg-white shadow-lg p-5" style="border-radius: 15px;">
                 <p class="text-center small">TRY IT YOURSELF</p>
                 <h2 class="text-center">Shorten URL Is Just Simple</h2>
                 
-                <form method="POST">
-                    <div class="mt-4 rounded-pill d-flex m-auto gap-1">
-                        {% csrf_token %}
-                        <div class="border-0 m-auto" style="width: 90%;">
-                            {{ inp_form.url|as_crispy_field }}
+                <form method="POST" id="post-form" class="m-3">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label>URL</label>
+                        <input type="url" class="form-control" id="long_url" placeholder="URL here" required>
+                    </div>
+                    <p>
+                      <a class="btn border-0 mt-2 collapsible" data-bs-toggle="collapse" href="#cus-url-collapse" role="button" aria-expanded="false" aria-controls="collapseExample">
+                        Custom Your URL 
+                      </a>
+                    </p>
+                    <div class="collapse " id="cus-url-collapse">
+                        <div class="card card-body">
+                            <div class="form-group">
+                                <label>Custom URL</label>
+                                <input type="text" class="form-control" id="short_url" placeholder="Custom URL here">
+                                <input type="hidden" class="form-control" id="user" value="{{ user }}">
+                            </div>
                         </div>
-                        <!-- <input type="text" class="border-0 input" placeholder="Your URL here"> -->
-                        <button type="submit" class="btn rounded px-5 btn-primary">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-arrow-right-short m-auto" viewBox="0 0 16 16">
-                                <path fill-rule="evenodd" d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"/>
-                            </svg>
-                        </button>
                     </div>
+                    <button type="submit" class="btn btn-primary" id="#submit">Submit</button>
                 </form>
-                <div class="row mt-5 mx-auto border rounded-pill" style="width: 50%;">
-                    <div class="col-lg-10">
-                        <p class="mx-4 m-auto p-1" id="p1">hasil URL</p>
-                    </div>
-                    <div class="col-lg-1">
-                        <button class="btn rounded-pill btn-primary px-5" type="button" onclick="copyToClipboard('#p1')">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-clipboard" viewBox="0 0 16 16">
-                                <path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z"/>
-                                <path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z"/>
-                              </svg>
-                        </button>
-                    </div>
-                </div>
+                <span id="p1" class="p1">
+                    
+                </span>
             </div>
         </div>
     </div>
@@ -389,6 +376,88 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
+{% endblock %}
+
+{% block javascript %}
+<script>
+$(document).on('submit', '#post-form',function(e){
+    e.preventDefault();
+    var serializedData = $(this).serialize();
+    $.ajax({
+        type:'POST',
+        url:'{% url "create-main" %}',
+        data:{
+            user:$('#user').val(),
+            long_url:$('#long_url').val(),
+            short_url:$('#short_url').val(),
+            csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
+            action: 'post',
+        },
+         
+        success:function(response){
+            document.getElementById("post-form").reset();
+            var instance = JSON.parse(response["instance"]);
+            var fields = instance[0]["fields"];
+            $(".p1").prepend(
+                `${fields["url"]||""}`
+            )
+        },
+        error : function(xhr,errmsg,err) {
+        console.log(xhr.status + ": " + xhr.responseText); 
+        }
+    });
+});
+    // $("#ip-form").submit(function (e) {
+    //     e.preventDefault();
+    //     var serializedData = $(this).serialize();
+    //     $.ajax({
+    //         type: 'POST',
+    //         url: "{% url 'post-ajax' %}",
+    //         data: serializedData,
+    //         success: function (response) {
+    //             $("#id_url").focus();
+    //             var instance = JSON.parse(response["instance"]);
+    //             var fields = instance[0]["fields"];
+    //             $("#p1").prepend(
+    //                 `
+    //                 <div class="row mt-5 mx-auto border rounded-pill" style="width: 50%;">
+    //                     <div class="col-lg-10">
+    //                         <p class="mx-4 m-auto p-1">
+    //                             ${fields["url"]||""}
+    //                         </p>
+    //                     </div>
+    //                     <div class="col-lg-1">
+    //                         <button class="btn rounded-pill btn-primary px-5" type="button" onclick="copyToClipboard('#p1')">
+    //                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-clipboard" viewBox="0 0 16 16">
+    //                                 <path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z"/>
+    //                                 <path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z"/>
+    //                             </svg>
+    //                         </button>
+    //                     </div>
+    //                 </div>`
+    //             )
+
+    //         },
+    //         error: function (response) {
+    //             // alert the error if any error occured
+    //             alert(response["responseJSON"]["error"]);
+    //         }
+    //     })
+    // })
+</script>
+<script>
+    function copyToClipboard(element) {
+      var $temp = $("<input>");
+      $("body").append($temp);
+      $temp.val($(element).text()).select();
+      document.execCommand("copy");
+      $temp.remove();
+    }
+    
+</script>
+{% endblock javascript %}
+
+{% block style %}
 <style>
     .pic {
         border-radius: 50%; 
@@ -424,5 +493,5 @@
     }
   
 </style>
-
 {% endblock %}
+

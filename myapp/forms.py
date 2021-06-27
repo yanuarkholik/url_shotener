@@ -1,11 +1,12 @@
+import datetime
 from django.forms import ModelForm
 from django.contrib.auth.models import User
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth.forms import UserCreationForm
 from django import forms
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Layout, Submit, Row, Column
 
-from .models import Profile, URLs
+
+from .models import Profile, URLs, CustomURLs
 
 
 class SignUpForm(UserCreationForm):
@@ -48,8 +49,7 @@ class ProfileUpdateForm(forms.ModelForm):
 class InputURLs(forms.ModelForm):
     class Meta:
         model = URLs
-        fields = ['url']
-        exclude = ('user',)
+        fields = ['url',]
 
     def __init__(self, *args, **kwargs):
         super(InputURLs, self).__init__(*args, **kwargs)
@@ -57,4 +57,14 @@ class InputURLs(forms.ModelForm):
         self.helper.form_show_labels = False 
         self.helper.form_show_errors = False
         
-        
+class CustomForm(forms.ModelForm):
+    long_url = forms.URLField(widget=forms.URLInput(
+        attrs={"class": "form-control form-control-lg border-0 rounded", "placeholder": "Your URL to shorten"}))
+
+    
+    class Meta:
+        model = CustomURLs
+
+        fields = ('long_url', 'short_url', )  
+
+     

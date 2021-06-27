@@ -1,0 +1,14 @@
+<form method="post" action="{% url 'url-create-page' %}" class="js-url-create-form">
+    {% csrf_token %}
+    <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Create New URL</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    </div>
+    <div class="modal-body">
+        {% include 'profile/includes/partial_url_form.html' %}
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary">Create url</button>
+    </div>
+</form>

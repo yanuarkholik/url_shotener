@@ -7,254 +7,76 @@
 {% endblock %}
 
 {% block content %} 
-<nav class="navbar navbar-expand-lg navbar-white bg-white">
-    <div class="container-fluid py-2 px-4 ">
-        <a class="navbar-brand" href="{% url 'home-page' %}" style="color: darkblue;">S I N G K A T I N</a>
-        <ul class="navbar-nav mb-2 mb-lg-0 gap-4">
-            <li class="nav-item m-auto"><a class="nav-link active hvr" type="button" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-                <img src="{{ user.profile.image.url }}" class="profile-small" alt="" > 
-            </a></li>
-        </ul>
-    </div>
-</nav>
-<div class="d-flex">
-    <div class="sidebar shadow"  style="background-color: #0E2A47;">
-        <ul class="navbar-nav mb-2 mb-lg-0 mt-3 gap-4">
-            <li class="nav-item m-auto">
-                <a class="nav-link active rounded-full" type="button" data-bs-toggle="modal" data-bs-target="#linkModal">
-                    <img class="menu-icon" src="{% static 'images/menu-send.png/' %}" alt="" srcset="">
-                </a>
-            </li>
-            <li class="nav-item m-auto">
-                <a class="nav-link active rounded-full" href="#dashboard">
-                    <img class="menu-icon" src="{% static 'images/menu-home.png/' %}" alt="" srcset="">
-                </a>
-            </li>
-            <li class="nav-item m-auto">
-                <a class="nav-link active rounded-full" href="#dashboard">
-                    <img class="menu-icon" src="{% static 'images/menu-link.png/' %}" alt="" srcset="">
-                </a>
-            </li>
-            <li class="nav-item m-auto">
-                <a type="button" class="nav-link active rounded-full">
-                    <img class="menu-icon" src="{% static 'images/settings.png/' %}" alt="" srcset="">
-                </a>
-            </li>
-        </ul>
-    </div>
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="row py-4 mx-1">
-                    <div class="col-lg-6" id="dashboard">
-                        <div class="bg-white rounded shadow-sm p-4">
-                            <div class="row">
-                                <div class="col-lg-3">
-                                    <p class="sml">
-                                        LINKS
-                                    </p>
-                                    <h2 class="fw-light">
-                                        <span class="dark-blue text-danger">
-                                            {{ count }}
-                                        </span>
-                                    </h2>
-                                </div>
-                                <div class="col-lg-9">
-                                    asdsd
-                                </div>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="row py-4 mx-1">
+                <div class="col-lg-6" id="dashboard">
+                    <div class="rounded shadow-sm p-4" style="background-color: #0079D0;">
+                        <div class="row">
+                            <div class="col-lg-3">
+                                <p class="sml text-white text-center">
+                                    TOTAL CLICK(S)
+                                </p>
+                                <h1 class="fw-normal text-center m-0">
+                                    <span class="text-white">
+                                        {{ cus }} 
+                                    </span>
+                                </h1>
+                            </div>
+                            <div class="col-lg-9 ">
+                                
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-3">
-                        <div class="bg-white rounded shadow-sm p-4">
-                            <p class="sml">
-                                APA NICH
-                            </p>
-                            <h2 class="fw-light">
-                                <span class="text-danger">120$</span> 
-                            </h2>
-                        </div>
-                    </div>
-                    <div class="col-lg-3">
-                        <div class="bg-white rounded shadow-sm p-4">
-                            <p class="sml">
-                                APA NICH
-                            </p>
-                            <h2 class="fw-light">
-                                <span class="text-danger">120$</span> 
-                            </h2>
-                        </div>
-                    </div>
-                    <div class="col-lg-12 pt-4 mb-5">
-                        <div class="bg-white rounded shadow-sm p-4">
-                            <p class="sml">
-                                GRAFIK PER BULAN
-                            </p>
-                            {% for post in posts %}
-                            <h6 class="fw-light">
-                                <span class="dark-blue">
-                                    {{ post.slug }}
-                                </span> 
-                            </h6>
-                            {% endfor %}
-                        </div>
-                    </div>
                 </div>
-            </div>
-        </div>
-    </div>
-</div>
-  
-<!-- Modal Link-->
-<div class="modal fade" id="linkModal" tabindex="-1" aria-labelledby="linkModel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered border-0">
-        <div class="modal-content border-0">
-            <div class="modal-header border-0">
-                <p class="modal-title sml" id="exampleModalLabel">CREATE NEW LINK</p>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <form action="" method="POST">
-                <div class="modal-body border-0 d-flex m-auto gap-1 pb-4">
-                    {% csrf_token %}
-                    <div class="border-0 m-auto" style="width: 90%;">
-                        {{ i_form.url|as_crispy_field }}
-                    </div>
-                    <a type="submit" class="btn btn-primary px-5 sml" data-bs-dismiss="modal">SIMPAN</a>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-
-<!-- Modal User-->
-<div class="modal fade" id="staticBackdrop" tabindex="-1" aria-labelledby="userModel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-xl border-0">
-        <div class="modal-content border-0">
-        <div class="modal-header border-0">
-            <h6 class="modal-title small" id="staticBackdropLabel">SETTINGS</h6>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body border-0">
-            <div class="row">
-                <div class="col-lg-12 mb-4">
-                    <div class="cnt">
-                        <img src="{{ user.profile.image.url }}" alt="" srcset="" class="profile">
-                        <div class="middle text-center">
-                            <a href="{{ p_form.image.url }}" class="text-decoration-none text-dark fw-bold">ubah gambar</a>
+                <div class="col-lg-6" id="dashboard">
+                    <div class="bg-white rounded shadow-sm p-4">
+                        <div class="row">
+                            <div class="col-lg-4 text-center">
+                                <p class="sml">
+                                    LINKS
+                                </p>
+                                <h2 class="fw-light">
+                                    <span class="dark-blue text-danger">
+                                        {{ count }}
+                                    </span>
+                                </h2>
+                            </div>
+                            <div class="col-lg-4 text-center border-start border-end">
+                                <p class="sml">
+                                    eCPM
+                                </p>
+                                <h2 class="fw-light">
+                                    <span class="dark-blue text-danger">
+                                        $0.5
+                                    </span>
+                                </h2>
+                            </div>
+                            <div class="col-lg-4 text-center">
+                                <p class="sml">
+                                    TOTAL EARNING
+                                </p>
+                                <h2 class="fw-light">
+                                    <span class="dark-blue text-danger">
+                                        ${{ total }}
+                                    </span>
+                                </h2>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-6">
-                    <form action="" method="POST"> 
-                        {% csrf_token %}
-                        <h6 class="sml">
-                            NAMA
-                        </h6>
-                        {{ u_form.username|as_crispy_field}}
-                </div>
-                <div class="col-lg-6">
-                    <h6 class="sml">
-                        E-MAIL
-                    </h6>
-                        {{ u_form.email|as_crispy_field }}
-                        <button type="button" class="btn btn-primary mt-5 px-4 float-end rounded-pill sml">SIMPAN</button>
-                    </form>
+                <div class="col-lg-12">
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-<style>
-body {
-    background-color: whitesmoke;
-}
 
-.rounded-full {
-    padding: 10px;
-    border-radius: 50%;
-}
-
-.rounded-full:hover {
-    transition: 0.2s ease-in-out;
-    transform: translateY(-1px);
-    padding: 10px;
-    border-radius: 50%;
-    background-color: #ff0000;
-}
-
-.sidebar {
-    width: 80px;
-}
-
-.menu-icon {
-    height: 20px;
-}
-
-.profile {
-    border-radius: 50%; 
-    width: 80px; 
-    height: 80px; 
-    object-fit: cover;
-    opacity: 1;
-    display: block;
-    transition: .5s ease;
-    backface-visibility: hidden;
-}
-
-.profile-small {
-    border-radius: 50%; 
-    width: 25px; 
-    height: 25px; 
-    object-fit: cover;
-    opacity: 1;
-    display: block;
-    transition: .5s ease;
-    backface-visibility: hidden;
-}
-
-.profile-small:hover {
-    transform: translateY(-3px);
-}
-
-.middle {
-    transition: .5s ease;
-    opacity: 0;
-    position: absolute;
-    height: 100px;
-    width: 80px;
-    transform: translate(-0%, -60%);
-    -ms-transform: translate(-50%, -50%);
-}
-
-.cnt:hover .profile {
-    opacity: 0.3;
-}
-
-.cnt {
-    border-radius: 50%; 
-    width: 80px; 
-    height: 80px; 
-    opacity: 1;
-    display: block;
-    transition: .5s ease;
-    backface-visibility: hidden;
-}
-
-.cnt:hover .middle {
-    opacity: 1;
-}
-
-.vl {
-    border-left: 1px solid rgb(255, 255, 255);
-    opacity: 70%;
-    height: 20px;
-    margin: auto;
-}
-
-.sml {
-    font-size: smaller;
-}
-</style>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
 {% endblock %}
+
+{% block javascript %}
+
+{% endblock javascript %}

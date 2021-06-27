@@ -1,0 +1,52 @@
+{% for c in custom %}
+<tr>
+    <td>{{ forloop.counter }}</td>
+    <td><a href="{{ c.url }}" class="text-decoration-none" data-bs-toggle="tooltip" title="{{ c.long_url }}"><p>{{ c.url}}</p></a></td>
+    <td><a href="{{ c.long_url }}" class="text-decoration-none" data-bs-toggle="tooltip" title="{{ c.long_url }}"><p>{{ c.long_url}}</p></a></td>
+    <td>{{ c.buat }}</td>
+    <td><button type="button" class="btn btn-warning btn-sm js-update-url text-white" data-bs-toggle="modal" data-bs-target="#update-url-{{ c.id }}">Edit</button></td>
+    <td><button type="button" class="btn btn-danger btn-sm js-delete-url text-white" data-bs-toggle="modal" data-bs-target="#delete-url-{{ c.id }}">Delete</button></td>
+</tr>
+<div class="modal fade" id="update-url-{{ c.id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content p-2">
+          <form method="POST" id="post-form">
+              {% csrf_token %}
+              <div class="form-group">
+                <label>URL</label>
+                <input type="url" class="form-control" id="long_url" value="{{ c.long_url }}" required>
+              </div>
+              <div class="form-group">
+                <label>Custom URL</label>
+                <input type="text" class="form-control" id="short_url" value="{{ c.short_url }}">
+                <input type="hidden" class="form-control" id="user" value="{{ c.user }}">
+              </div>
+              <button type="submit" class="btn btn-primary">Submit</button>
+          </form>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="delete-url-{{ c.id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <form method="POST" id="post-form" class="m-3">
+              {% csrf_token %}
+              <div class="form-group">
+                <label>URL</label>
+                <input type="url" class="form-control" id="long_url" placeholder="URL here" required>
+              </div>
+              <div class="form-group">
+                <label>Custom URL</label>
+                <input type="text" class="form-control" id="short_url" placeholder="Custom URL here">
+                <input type="hidden" class="form-control" id="user" value="{{ user }}">
+              </div>
+              <button type="submit" class="btn btn-primary">Submit</button>
+          </form>
+        </div>
+    </div>
+</div>
+{% empty %}
+<tr>
+    <td colspan="7" class="text-center bg-warning">No url</td>
+</tr>
+{% endfor %}
