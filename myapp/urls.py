@@ -11,17 +11,17 @@ from .views import (
     profile, 
     edit_profile, 
     payment, 
-    brand, 
-    postAJAX, 
+    brand,  
     redirect_url_view,
     create,
+    update,
     create_main,
-    validate_username,
+    delete_main, 
+
 )
 
 urlpatterns = [
     path('', home, name='home-page'),
-    path('post/ajax/url/', postAJAX, name = "post-ajax"),
     path('profile/edit/', edit_profile, name='edit_profile-page'),
     path('payment/', payment, name='payment-page'),
     path('brand/', brand, name='brand-page'),
@@ -31,9 +31,10 @@ urlpatterns = [
     path('create/', create, name='create'),
     path('edit/', edit, name='edit'),
     path('create/main/', create_main, name='create-main'),
+    path('delete/main/<int:pk>', delete_main, name='delete-main'),
+    path('edit/main/<int:pk>', update, name='update-main'),
 
     path('signup/', register, name='signup-page'),
-    path('validate/', validate_username, name='validate-username'),
     path('login/', auth_views.LoginView.as_view(template_name='auth/login.html'), name='login-page'),
     path('logout/', auth_views.LogoutView.as_view(), name='logout-page'),
     path('<slug:slug>/', redirect_url_view, name='redirect-page'),

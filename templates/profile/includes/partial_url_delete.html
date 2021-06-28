@@ -1,15 +1,17 @@
-<form method="post" action="{% url 'url-delete-page' c.id %}" class="js-url-delete-form">
+ 
+<form method="post" action="{% url 'delete-main' cus.id %}" class="js-url-delete-form">
     {% csrf_token %}
     <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">Confirm URL Deletion</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
     </div>
     <div class="modal-body">
-    <p class="lead">Are you sure you want to delete the url <strong>{{ c.url }}</strong>?</p>
+    <p class="lead">Are you sure you want to delete the url <strong>{{ cus.url }}</strong>?</p>
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
         <button type="submit" class="btn btn-danger">Delete url</button>
     </div>
 </form>
+
  

@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from django.db.models.aggregates import Sum
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-
+import PIL
 # Import the function used to create random codes
 from .utils import create_shortened_url
 
@@ -48,7 +48,7 @@ class URLs(models.Model):
 
 
 class CustomURLs(models.Model):
-    user        = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+    user        = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True, )
     buat        = models.DateTimeField(auto_now_add=True)
     foll        = models.PositiveIntegerField(default=0)   
     long_url    = models.URLField()

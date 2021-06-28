@@ -1,4 +1,4 @@
-#!E:\Semester6\Sistem Pakar\FP\url_shotener\env\Scripts\python.exe
+#!e:\semester6\manajemen project\fp\url_shotener\env\scripts\python.exe
 # When the django-admin.py deprecation ends, remove this script.
 import warnings
 

@@ -1,16 +1,15 @@
+from django.template.loader import render_to_string
 from django.urls import reverse
 from django.core import serializers
-from django.db.models import Sum
 from django.http import Http404, HttpResponseRedirect
 from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404, render, get_list_or_404
-from django.template.loader import render_to_string
 from django.http import HttpResponseRedirect, JsonResponse
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.decorators import login_required
 
-from .forms import InputURLs, UserCreationForm, UserUpdateForm, ProfileUpdateForm, CustomForm
-from .models import URLs, Profile, CustomURLs
+from .forms import UserCreationForm, UserUpdateForm, ProfileUpdateForm, CustomForm
+from .models import CustomURLs
 
 def payment(request):
     return render(request, 'profile/payment.html')
@@ -38,24 +37,6 @@ def create(request):
         data['short_url'] = short_url
         data['user'] = user
 
-        CustomURLs.objects.create(
-            long_url = long_url,
-            short_url = short_url,
-            user = user,
-            )
-        return JsonResponse(data)
-    return render(request, 'profile/urls.html',)  
-
-def create_main(request):
-    data = {}
-    if request.POST.get('action') == 'post':
-        long_url    = request.POST.get('long_url')
-        short_url   = request.POST.get('short_url')
-        user        = request.POST['user']
-
-        data['long_url'] = long_url
-        data['short_url'] = short_url
-
         dat = CustomURLs.objects.create(
             long_url = long_url,
             short_url = short_url,
@@ -63,7 +44,34 @@ def create_main(request):
             )
         ser_instance = serializers.serialize('json', [dat,])
         return JsonResponse({"instance": ser_instance}, status=200)
-    return render(request, 'home.html',)  
+
+def create_main(request):
+    if request.user.is_authenticated :
+        if request.POST.get('action') == 'post':
+            long_url    = request.POST.get('long_url')
+            short_url   = request.POST.get('short_url')
+            user        = request.user
+            dat = CustomURLs.objects.create(
+                long_url = long_url,
+                short_url = short_url,
+                user = user,
+                )
+    else :
+        if request.POST.get('action') == 'post':
+            long_url    = request.POST.get('long_url')
+            short_url   = request.POST.get('short_url')
+            dat = CustomURLs.objects.create(
+                long_url = long_url,
+                short_url = short_url,
+                )
+    ser_instance = serializers.serialize('json', [dat,])
+    return JsonResponse({"instance": ser_instance}, status=200)
+
+# def delete_main(request, pk):
+#     a = CustomURLs.objects.get(id=pk)
+#     if request.method == "POST":
+#         a.delete()
+#     return HttpResponseRedirect("/urls/")
 
 def edit(request, pk):     
     if request.method == "POST":         
@@ -130,15 +138,6 @@ def register(request):
         form = UserCreationForm()
     return render(request, 'auth/signup.html', {'form': form})
 
-def validate_username(request):
-    username = request.GET.get('username', None)
-    data = {
-        'is_taken': User.objects.filter(username__iexact=username).exists()
-    }
-    if data['is_taken']:
-        data['error_message'] = 'A user with this username already exists.'
-    return JsonResponse(data)
-
 def home(request):
     form = CustomForm()
     cus = CustomURLs.objects.order_by('id')
@@ -148,18 +147,49 @@ def home(request):
     }
     return render(request, 'home.html', context)
 
+def save_url_form(request, form, template_name):
+    data = dict()
+    if request.method == 'POST':
+        if form.is_valid():
+            form.save()
+            data['form_is_valid'] = True
+            url = CustomURLs.objects.filter(user=request.user).order_by('-id')
+            data['html_url_list'] = render_to_string('profile/includes/partial_url_list.html', {
+                'custom': url
+            })
+        else:
+            data['form_is_valid'] = False
+    context = {'form': form}
+    data['html_form'] = render_to_string(template_name, context, request=request)
+    return JsonResponse(data)
+
 @login_required
-def postAJAX(request):
-    if request.is_ajax and request.method == "POST":
-        used_form = CustomForm(request.POST)
-        if used_form.is_valid():
-            shortened_object = used_form.save()
-            ser_instance = serializers.serialize('json', [shortened_object,])
-            return JsonResponse({"instance": ser_instance}, status=200)
-        else :
-            return JsonResponse({"errors": used_form.errors}, status=400)
-    
-    return JsonResponse({"error": ""}, status=400)
+def update(request, pk):
+     
+    if request.method == 'POST':
+        form = CustomForm(request.POST, instance=get_list_or_404(CustomURLs, id=pk))
+    else:
+        form = CustomForm(instance=url)
+    return save_url_form(request, form, 'profile/includes/partial_url_update.html')
+
+
+def delete_main(request, pk):
+    url = get_object_or_404(CustomURLs, id=pk)
+    data = dict()
+    if request.method == 'POST':
+        url.delete()
+        data['form_is_valid'] = True  # This is just to play along with the existing code
+        urls = CustomURLs.objects.filter(user=request.user).order_by('-id')
+        data['html_url_list'] = render_to_string('profile/includes/partial_url_list.html', {
+            'custom': urls
+        })
+    else:
+        context = {'cus': url}
+        data['html_form'] = render_to_string('profile/includes/partial_url_delete.html',
+            context,
+            request=request,
+        )
+    return JsonResponse(data)
 
 def redirect_url_view(request, slug):
 
@@ -170,3 +200,4 @@ def redirect_url_view(request, slug):
         return HttpResponseRedirect(shortener.long_url)
     except:
         raise Http404('Sorry this link is broken :(')
+

@@ -64,7 +64,6 @@ class CustomForm(forms.ModelForm):
     
     class Meta:
         model = CustomURLs
-
         fields = ('long_url', 'short_url', )  
 
      

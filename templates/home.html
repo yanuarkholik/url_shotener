@@ -86,7 +86,7 @@
                             </div>
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-primary" id="#submit">Submit</button>
+                    <button type="submit" class="btn btn-primary" id="#submit" >Submit</button>
                 </form>
                 <span id="p1" class="p1">
                     
@@ -393,66 +393,31 @@ $(document).on('submit', '#post-form',function(e){
             csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
             action: 'post',
         },
-         
+        
         success:function(response){
             document.getElementById("post-form").reset();
             var instance = JSON.parse(response["instance"]);
             var fields = instance[0]["fields"];
-            $(".p1").prepend(
-                `${fields["url"]||""}`
-            )
+            $(".p1").replaceWith(
+                `<span class="p1">
+                    ${fields["url"]||""}
+                </span>`
+            );
+             
         },
         error : function(xhr,errmsg,err) {
         console.log(xhr.status + ": " + xhr.responseText); 
         }
     });
 });
-    // $("#ip-form").submit(function (e) {
-    //     e.preventDefault();
-    //     var serializedData = $(this).serialize();
-    //     $.ajax({
-    //         type: 'POST',
-    //         url: "{% url 'post-ajax' %}",
-    //         data: serializedData,
-    //         success: function (response) {
-    //             $("#id_url").focus();
-    //             var instance = JSON.parse(response["instance"]);
-    //             var fields = instance[0]["fields"];
-    //             $("#p1").prepend(
-    //                 `
-    //                 <div class="row mt-5 mx-auto border rounded-pill" style="width: 50%;">
-    //                     <div class="col-lg-10">
-    //                         <p class="mx-4 m-auto p-1">
-    //                             ${fields["url"]||""}
-    //                         </p>
-    //                     </div>
-    //                     <div class="col-lg-1">
-    //                         <button class="btn rounded-pill btn-primary px-5" type="button" onclick="copyToClipboard('#p1')">
-    //                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-clipboard" viewBox="0 0 16 16">
-    //                                 <path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z"/>
-    //                                 <path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z"/>
-    //                             </svg>
-    //                         </button>
-    //                     </div>
-    //                 </div>`
-    //             )
 
-    //         },
-    //         error: function (response) {
-    //             // alert the error if any error occured
-    //             alert(response["responseJSON"]["error"]);
-    //         }
-    //     })
-    // })
-</script>
-<script>
-    function copyToClipboard(element) {
-      var $temp = $("<input>");
-      $("body").append($temp);
-      $temp.val($(element).text()).select();
-      document.execCommand("copy");
-      $temp.remove();
-    }
+function copyToClipboard(element) {
+    var $temp = $("<input>");
+    $("body").append($temp);
+    $temp.val($(element).text()).select();
+    document.execCommand("copy");
+    $temp.remove();
+}
     
 </script>
 {% endblock javascript %}
