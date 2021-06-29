@@ -10,7 +10,7 @@ from .utils import create_shortened_url
 
 class Profile(models.Model):
     user        = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
-    image       = models.ImageField(default='images/default.jpg/', upload_to='upload')
+    image       = models.ImageField(default='images/default.jpg/', upload_to='images/upload/')
     deskripsi   = models.TextField(null=True, blank=True, help_text='Deskripsi singkat Profile anda**')
     slug        = models.CharField(max_length=100, blank=True, null=True)
     buat        = models.DateTimeField(auto_now_add=True, blank=True, null=True)
