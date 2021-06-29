@@ -14,45 +14,17 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-white bg-white">
+<nav class="navbar navbar-expand-lg navbar-white bg-white shadow-sm">
     <div class="container-fluid py-2 px-4 ">
         <a class="navbar-brand" href="{% url 'home-page' %}" style="color: darkblue;">S I N G K A T I N</a>
         <ul class="navbar-nav mb-2 mb-lg-0 gap-4">
-            <li class="nav-item m-auto"><a href="{% url 'logout-page' %}" class="sml text-decoration-none text-danger">LOGOUT</a></li>
-            <li class="nav-item m-auto"><a class="nav-link active hvr" href="{% url 'edit_profile-page' %}" type="button">
-                <img src="{{ user.profile.image.url }}" class="profile-small" alt="" > 
-            </a></li>
+            {% block url%} 
+            {% endblock %}
         </ul>
     </div>
 </nav>
-
-<div class="d-flex">
-    <div class="sidebar shadow"  style="background-color: #035c9b;">
-        <ul class="navbar-nav mb-2 mb-lg-0 mt-3 gap-4">
-            <li class="nav-item m-auto">
-                <a class="nav-link active rounded-full" href="{% url 'profile-page' %}">
-                    <img class="menu-icon" src="{% static 'images/menu-home.png/' %}" alt="" srcset="">
-                </a>
-            </li>
-            <li class="nav-item m-auto">
-                <a class="nav-link active rounded-full" href="{% url 'payment-page' %}">
-                    <img class="menu-icon" src="{% static 'images/menu-link.png/' %}" alt="" srcset="">
-                </a>
-            </li>
-            <li class="nav-item m-auto">
-                <a type="button" class="nav-link active rounded-full" href="{% url 'brand-page' %}">
-                    <img class="menu-icon" src="{% static 'images/settings.png/' %}" alt="" srcset="">
-                </a>
-            </li>
-            <li class="nav-item m-auto">
-                <a type="button" class="nav-link active rounded-full" href="{% url 'url-page' %}">
-                    <img class="menu-icon" src="{% static 'images/settings.png/' %}" alt="" srcset="">
-                </a>
-            </li>
-        </ul>
-    </div>
-    {%block content %}
-    {% endblock %}
+{%block content %}
+{% endblock %}
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>

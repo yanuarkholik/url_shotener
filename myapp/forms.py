@@ -23,8 +23,14 @@ class SignUpForm(UserCreationForm):
         self.helper.form_show_errors = False
 
 class UserUpdateForm(forms.ModelForm):
-    email = forms.EmailField()
-
+    username = forms.CharField(
+        required=False, 
+        widget=forms.TextInput(attrs={'class': 'form-control'})
+        )
+    email = forms.EmailField(
+        required=False, 
+        widget=forms.EmailInput(attrs={'class': 'form-control'})
+        )
     class Meta:
         model = User
         fields = ['username', 'email']
@@ -58,12 +64,31 @@ class InputURLs(forms.ModelForm):
         self.helper.form_show_errors = False
         
 class CustomForm(forms.ModelForm):
-    long_url = forms.URLField(widget=forms.URLInput(
-        attrs={"class": "form-control form-control-lg border-0 rounded", "placeholder": "Your URL to shorten"}))
-
-    
     class Meta:
         model = CustomURLs
-        fields = ('long_url', 'short_url', )  
+        fields = ('long_url', 'short_url', ) 
 
-     
+    def __init__(self, *args, **kwargs):
+        super(CustomForm, self).__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.form_show_labels = False 
+
+class UpdateCustomForm(forms.ModelForm):
+    long_url = forms.URLField(
+        required=False, 
+        widget=forms.URLInput(attrs={'placeholder': 'Your new URL here'})
+        )
+    short_url = forms.CharField(
+        required=False,
+        widget=forms.TextInput(
+            attrs={'placeholder': 'Your new URL here'} )
+            )
+    class Meta:
+        model = CustomURLs
+        fields = ['long_url', 'short_url', ]
+
+    def __init__(self, *args, **kwargs):
+        super(UpdateCustomForm, self).__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.form_show_errors = False
+        self.helper.html5_required = False

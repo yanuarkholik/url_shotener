@@ -1,6 +1,5 @@
 {% extends 'index.html' %}
 {% load static %}
-{% load crispy_forms_tags %}
 
 {% block title %} 
 <title>SINGKATIN - URL Shortener</title>
@@ -68,25 +67,17 @@
                 
                 <form method="POST" id="post-form" class="m-3">
                     {% csrf_token %}
-                    <div class="form-group">
-                        <label>URL</label>
-                        <input type="url" class="form-control" id="long_url" placeholder="URL here" required>
-                    </div>
-                    <p>
-                      <a class="btn border-0 mt-2 collapsible" data-bs-toggle="collapse" href="#cus-url-collapse" role="button" aria-expanded="false" aria-controls="collapseExample">
-                        Custom Your URL 
-                      </a>
-                    </p>
-                    <div class="collapse " id="cus-url-collapse">
-                        <div class="card card-body">
-                            <div class="form-group">
-                                <label>Custom URL</label>
-                                <input type="text" class="form-control" id="short_url" placeholder="Custom URL here">
+                    <div class="row g-0 border rounded-pill">
+                        <div class="col-lg-10">
+                            <div class="form-group border-0">
+                                <input type="url" class="form-control border-0 rounded-pill " id="long_url" placeholder="Input Your URL Here" required>
                                 <input type="hidden" class="form-control" id="user" value="{{ user }}">
                             </div>
                         </div>
+                        <div class="col-lg-2 d-grid ">
+                            <button type="submit" class="btn btn-primary rounded-pill" id="#submit" >Send</button>
+                        </div>
                     </div>
-                    <button type="submit" class="btn btn-primary" id="#submit" >Submit</button>
                 </form>
                 <span id="p1" class="p1">
                     
@@ -210,9 +201,9 @@
                             <div class="row g-5">
                                 <div class="col-lg-12 text-center">
                                     <h1 class="text-primary">
-                                        1,200,000+
+                                        {{ cus }}
                                     </h1>
-                                    <p class="card-text fw-light">Links clicked per day</p>
+                                    <p class="card-text fw-light">Links clicked </p>
                                 </div>
                             </div>
                         </div>
@@ -354,8 +345,10 @@
         </div>
     </div>
     <footer>
-        <div class="container">
-            dasdas
+        <div class="container-fluid" style="background-color: rgb(0, 0, 125);">
+            <div class="text-center py-4 text-white">
+                Copyright singkat.in 2021
+            </div>
         </div>
     </footer>
 </div>
@@ -399,9 +392,11 @@ $(document).on('submit', '#post-form',function(e){
             var instance = JSON.parse(response["instance"]);
             var fields = instance[0]["fields"];
             $(".p1").replaceWith(
-                `<span class="p1">
-                    ${fields["url"]||""}
-                </span>`
+                `<div class="p1 p-4 bg-light shadow-sm m-3 border text-center rounded">
+                    <a href="${fields["long_url"]||""}" >${fields["long_url"]||""}</a>
+                    <p>Your Shortened URL :</p>
+                    <p class="fw-bold">${fields["url"]||""}</p>
+                </div>`
             );
              
         },
@@ -412,11 +407,10 @@ $(document).on('submit', '#post-form',function(e){
 });
 
 function copyToClipboard(element) {
-    var $temp = $("<input>");
-    $("body").append($temp);
-    $temp.val($(element).text()).select();
+    var copyText = document.getElementById("#cp");
+    copyText.select();
+    copyText.setSelectionRange(0, 99999);  
     document.execCommand("copy");
-    $temp.remove();
 }
     
 </script>

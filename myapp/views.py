@@ -1,14 +1,13 @@
-from django.template.loader import render_to_string
 from django.urls import reverse
 from django.core import serializers
 from django.http import Http404, HttpResponseRedirect
 from django.contrib.auth.models import User
-from django.shortcuts import get_object_or_404, render, get_list_or_404
+from django.shortcuts import get_object_or_404, render
 from django.http import HttpResponseRedirect, JsonResponse
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.decorators import login_required
 
-from .forms import UserCreationForm, UserUpdateForm, ProfileUpdateForm, CustomForm
+from .forms import UserCreationForm, UserUpdateForm, ProfileUpdateForm, CustomForm, UpdateCustomForm
 from .models import CustomURLs
 
 def payment(request):
@@ -45,6 +44,21 @@ def create(request):
         ser_instance = serializers.serialize('json', [dat,])
         return JsonResponse({"instance": ser_instance}, status=200)
 
+def update(request, pk):
+    link = CustomURLs.objects.get(id=pk)
+    form = UpdateCustomForm(request.POST, instance=link,)
+    if request.method == "POST":
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect("/profile/")
+        else :
+            form = CustomForm(request.POST, instance=link)
+    context = {
+        'form': form, 
+        'link':link
+    }
+    return render(request, 'profile/edit.html', context)
+
 def create_main(request):
     if request.user.is_authenticated :
         if request.POST.get('action') == 'post':
@@ -67,22 +81,12 @@ def create_main(request):
     ser_instance = serializers.serialize('json', [dat,])
     return JsonResponse({"instance": ser_instance}, status=200)
 
-# def delete_main(request, pk):
-#     a = CustomURLs.objects.get(id=pk)
-#     if request.method == "POST":
-#         a.delete()
-#     return HttpResponseRedirect("/urls/")
-
-def edit(request, pk):     
-    if request.method == "POST":         
-        url = get_object_or_404(CustomURLs, pk=pk)         
-        form = CustomForm(request.POST, instance=url)             
-        if  form.is_valid():                 
-            form.save()                 
-            return JsonResponse({"success": True})             
-        else:                 
-            print(form.errors)      
-            return JsonResponse({"success": False})
+def delete_main(request, pk):
+    a = CustomURLs.objects.get(id=pk)
+    if request.method == "POST":
+        a.delete()
+    return HttpResponseRedirect("/profile/")
+ 
 
 @login_required
 def edit_profile(request):
@@ -111,15 +115,18 @@ def profile(request):
     csform  = CustomForm()
     posts   = CustomURLs.objects.filter(user=request.user)
     count   = posts.count()
+    top     = posts.order_by('-foll')[:2]
     cus     = sum(posts.values_list('foll', flat=True))
     total   = cus*0.5
-
+    custom  = posts.order_by('-id')
     context = {
         'posts': posts,
         'count': count,
         'form': csform,
         'cus': cus,
         'total': total,
+        'custom': custom,
+        'top': top
     }
     return render(request, 'profile/profile.html', context)
 
@@ -139,57 +146,20 @@ def register(request):
     return render(request, 'auth/signup.html', {'form': form})
 
 def home(request):
-    form = CustomForm()
-    cus = CustomURLs.objects.order_by('id')
+    form    = CustomForm()
+    posts   = CustomURLs.objects.all()
+    count   = posts.count()
+    cus     = sum(posts.values_list('foll', flat=True))
+    p_count = User.objects.count()
     context = {
         'form': form,
-        'cus': cus, 
+        'posts': posts,
+        'count': count,
+        'cus': cus,
+        'prof_count': p_count,
     }
     return render(request, 'home.html', context)
 
-def save_url_form(request, form, template_name):
-    data = dict()
-    if request.method == 'POST':
-        if form.is_valid():
-            form.save()
-            data['form_is_valid'] = True
-            url = CustomURLs.objects.filter(user=request.user).order_by('-id')
-            data['html_url_list'] = render_to_string('profile/includes/partial_url_list.html', {
-                'custom': url
-            })
-        else:
-            data['form_is_valid'] = False
-    context = {'form': form}
-    data['html_form'] = render_to_string(template_name, context, request=request)
-    return JsonResponse(data)
-
-@login_required
-def update(request, pk):
-     
-    if request.method == 'POST':
-        form = CustomForm(request.POST, instance=get_list_or_404(CustomURLs, id=pk))
-    else:
-        form = CustomForm(instance=url)
-    return save_url_form(request, form, 'profile/includes/partial_url_update.html')
-
-
-def delete_main(request, pk):
-    url = get_object_or_404(CustomURLs, id=pk)
-    data = dict()
-    if request.method == 'POST':
-        url.delete()
-        data['form_is_valid'] = True  # This is just to play along with the existing code
-        urls = CustomURLs.objects.filter(user=request.user).order_by('-id')
-        data['html_url_list'] = render_to_string('profile/includes/partial_url_list.html', {
-            'custom': urls
-        })
-    else:
-        context = {'cus': url}
-        data['html_form'] = render_to_string('profile/includes/partial_url_delete.html',
-            context,
-            request=request,
-        )
-    return JsonResponse(data)
 
 def redirect_url_view(request, slug):
 
@@ -200,4 +170,3 @@ def redirect_url_view(request, slug):
         return HttpResponseRedirect(shortener.long_url)
     except:
         raise Http404('Sorry this link is broken :(')
-

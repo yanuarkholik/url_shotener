@@ -1,4 +1,93 @@
-{% for a in a %} 
+{% extends '../base.html' %} 
+{% load static %}
+{% load crispy_forms_tags %}
 
-{{a}}
-{% endfor %}
+{% block title %} 
+<title>Brand - {{ user }}</title>
+{% endblock %}
+
+{% block url %} 
+<li class="nav-item m-auto"><a href="{% url 'profile-page' %}" class="sml text-decoration-none text-dark">DASHBOARD</a></li>
+<li class="nav-item m-auto"><a href="{% url 'payment-page' %}" class="sml text-decoration-none text-dark">PAYMENT</a></li>
+<li class="nav-item m-auto"><a href="{% url 'brand-page' %}" class="sml text-decoration-none fw-bold text-dark">BRAND</a></li>
+<li class="nav-item m-auto text-muted fw-light">|</li>
+<li class="nav-item m-auto"><a href="{% url 'logout-page' %}" class="sml text-decoration-none text-danger">LOGOUT</a></li>
+<li class="nav-item m-auto">
+    <a class="nav-link active hvr" href="{% url 'edit_profile-page' %}" type="button">
+        <img src="{{ user.profile.image.url }}" class="profile-small" alt="" > 
+    </a>
+</li>
+{% endblock %}
+
+{% block content %} 
+<div class="container-fluid p-4">
+    <div class="row">
+        <div class="col-lg-12">
+            <p>
+                Add additional domains to shorten
+            </p>
+            <h2>
+                ADD BRANDED DOMAIN
+            </h2>
+            <div class="row row-cols-1 row-cols-md-4 g-3">
+                <div class="col">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Purchase Domain</h5>
+                            <p class="card-text">
+                                We can register a domain for you and complete all the setup. No technical knowledge required!
+                            </p>
+                            <b>Coming soon!</b>
+                            <div class="d-grid mt-2">
+                                <input type="submit" role="button" name="Purchase" class="btn btn-outline-primary" value="Purchase" id="">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">BYO Domain</h5>
+                            <p class="card-text">
+                                Bring your own domain and start creating shortened URLs with it. <br> <br>
+                            </p>
+                            <b>yourdomain.com</b>
+                            <div class="d-grid mt-2">
+                                <input type="submit" role="button" name="Purchase" class="btn btn-outline-primary" value="Purchase" id="">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">BYO Subdomain</h5>
+                            <p class="card-text">
+                                Already have a website? We can create a subdomain with which to shorten URLs.
+                            </p>
+                            <b>tiny.yourdomain.com</b>
+                            <div class="d-grid mt-2">
+                                <input type="submit" role="button" name="Purchase" class="btn btn-outline-primary" value="Purchase" id="">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Tiny Subdomain</h5>
+                            <p class="card-text">
+                                Get a subdomain using one of our many vanity domains to personalize your shortened URLs.
+                            </p>
+                            <b>yoursubdomain.tiny.us</b>
+                            <div class="d-grid mt-2">
+                                <input type="submit" role="button" name="Purchase" class="btn btn-outline-primary" value="Purchase" id="">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

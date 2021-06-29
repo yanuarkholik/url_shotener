@@ -6,6 +6,19 @@
 <title>Profile - {{ user }}</title>
 {% endblock %}
 
+{% block url %} 
+<li class="nav-item m-auto"><a href="{% url 'profile-page' %}" class="sml text-decoration-none fw-bold text-dark">DASHBOARD</a></li>
+<li class="nav-item m-auto"><a href="{% url 'payment-page' %}" class="sml text-decoration-none text-dark">PAYMENT</a></li>
+<li class="nav-item m-auto"><a href="{% url 'brand-page' %}" class="sml text-decoration-none text-dark">BRAND</a></li>
+<li class="nav-item m-auto text-muted fw-light">|</li>
+<li class="nav-item m-auto"><a href="{% url 'logout-page' %}" class="sml text-decoration-none text-danger">LOGOUT</a></li>
+<li class="nav-item m-auto">
+    <a class="nav-link active hvr" href="{% url 'edit_profile-page' %}" type="button">
+        <img src="{{ user.profile.image.url }}" class="profile-small" alt="" > 
+    </a>
+</li>
+{% endblock %}
+
 {% block content %} 
 <div class="container-fluid">
     <div class="row">
@@ -16,21 +29,28 @@
                         <div class="row">
                             <div class="col-lg-3">
                                 <p class="sml text-white text-center">
-                                    TOTAL CLICK(S)
+                                    TOTAL CLICKS
                                 </p>
                                 <h1 class="fw-normal text-center m-0">
-                                    <span class="text-white">
+                                    <span class="text-white" id="append">
                                         {{ cus }} 
                                     </span>
                                 </h1>
                             </div>
                             <div class="col-lg-9 ">
-                                
+                                <p class="sml text-white text-left">
+                                    TOP URL
+                                </p>
+                                {% for i in top %} 
+                                <p class="fw-normal text-left m-0 text-white">
+                                    {{i.url}} (<b>{{ i.foll }}</b>)
+                                </p>
+                                {% endfor %}
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-6" id="dashboard">
+                <div class="col-lg-6">
                     <div class="bg-white rounded shadow-sm p-4">
                         <div class="row">
                             <div class="col-lg-4 text-center">
@@ -66,7 +86,82 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-12">
+                <div class="col-lg-12 my-4">
+                    <div class="bg-white rounded shadow-sm p-4">
+                        <button type="button" class="btn btn-primary js-create-url mb-2" data-bs-toggle="modal" data-bs-target="#modal-url"  >
+                            <span class="glyphicon glyphicon-plus"></span>
+                            + New URL
+                        </button>
+                        <div class="modal fade" id="modal-url" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                <form method="POST" id="post-form" class="m-3">
+                                    {% csrf_token %}
+                                    <div class="form-group">
+                                        <label>URL</label>
+                                        <input type="url" class="form-control" id="long_url" placeholder="URL here" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Custom URL</label>
+                                        <input type="text" class="form-control" id="short_url" placeholder="Custom URL here">
+                                        <input type="hidden" class="form-control" id="user" value="{{ user }}">
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                </form>
+                                </div>
+                            </div>
+                        </div>
+                        <table class="table " id="url-table">
+                            <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Short Link</th>
+                                <th>Link</th>
+                                <th>Tanggal</th>
+                                <th>Hapus</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for c in custom %}
+                            <tr id="target">
+                                <td>{{ forloop.counter }}</td>
+                                <td><a href="{{ c.url }}" class="text-decoration-none" data-bs-toggle="tooltip" title="{{ c.long_url }}"><p>{{ c.url}}</p></a></td>
+                                <td><a href="{{ c.long_url }}" class="text-decoration-none" data-bs-toggle="tooltip" title="{{ c.long_url }}"><p>{{ c.long_url}}</p></a></td>
+                                <td>{{ c.buat }}</td>
+                                <td><button type="button" class="btn btn-danger btn-sm js-delete-url text-white" data-bs-toggle="modal" data-bs-target="#delete-url-{{ c.id }}">Delete</button></td>
+                            </tr>
+                            <div class="modal fade" id="delete-url-{{ c.id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h4 class="text-dark modal-title">
+                                                Are sure about that?
+                                            </h4>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form method="POST" id="delete-form" class="m-3" action="{% url 'delete-main' c.id %}">
+                                                {% csrf_token %}
+                                                
+                                                <h6 class="fw-normal">
+                                                    Delete <b>{{ c.url }}</b>
+                                                </h6>
+                                                <br>
+                                                <button type="submit" class="btn btn-danger">Delete</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {% empty %}
+                            <tr>
+                                <td colspan="7" class="text-center bg-warning">No url</td>
+                            </tr>
+                            {% endfor %}
+                            
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
@@ -77,6 +172,28 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
 {% endblock %}
 
-{% block javascript %}
 
-{% endblock javascript %}
+{% block javascript %}
+<script>
+$(function() {
+  $(document).on('submit', '#post-form',function(e){
+    $.ajax({
+      type:'POST',
+      url:'{% url "create" %}',
+      data:{
+          user:$('#user').val(),
+          long_url:$('#long_url').val(),
+          short_url:$('#short_url').val(),
+          csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
+          action: 'post',
+      },
+      error : function(xhr,errmsg,err) {
+      console.log(xhr.status + ": " + xhr.responseText); 
+      }
+    });
+  });
+});
+
+</script>
+
+{% endblock %}

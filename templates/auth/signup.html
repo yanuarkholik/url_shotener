@@ -20,7 +20,7 @@
         <div class="row">
             <div class="col-lg-6 mx-auto bg-white shadow-lg p-5" style="border-radius: 15px;">
                 <p class="text-center smaller" style="color: #0E2A47;"><b>REGISTRATION</b></p>
-                <form method="POST" data-validate-username-url="{% url 'validate-username' %}">
+                <form method="POST" >
                     {% csrf_token %}
                     <div class="py-4">
                         {{ form|crispy }}
@@ -40,21 +40,6 @@
         display: none;
     }   
 </style>
-<script>
-    $("#id_username").change(function () {
-      var form = $(this).closest("form");
-      $.ajax({
-        url: form.attr("data-validate-username-url"),
-        data: form.serialize(),
-        dataType: 'json',
-        success: function (data) {
-          if (data.is_taken) {
-            alert(data.error_message);
-          }
-        }
-      });
-
-    });
-</script>
+ 
 </body>
 </html>

@@ -3,7 +3,20 @@
 {% load crispy_forms_tags %}
 
 {% block title %} 
-<title>Profile - {{ user }}</title>
+<title>Payment - {{ user }}</title>
+{% endblock %}
+
+{% block url %} 
+<li class="nav-item m-auto"><a href="{% url 'profile-page' %}" class="sml text-decoration-none text-dark">DASHBOARD</a></li>
+<li class="nav-item m-auto"><a href="{% url 'payment-page' %}" class="sml text-decoration-none fw-bold text-dark">PAYMENT</a></li>
+<li class="nav-item m-auto"><a href="{% url 'brand-page' %}" class="sml text-decoration-none text-dark">BRAND</a></li>
+<li class="nav-item m-auto text-muted fw-light">|</li>
+<li class="nav-item m-auto"><a href="{% url 'logout-page' %}" class="sml text-decoration-none text-danger">LOGOUT</a></li>
+<li class="nav-item m-auto">
+    <a class="nav-link active hvr" href="{% url 'edit_profile-page' %}" type="button">
+        <img src="{{ user.profile.image.url }}" class="profile-small" alt="" > 
+    </a>
+</li>
 {% endblock %}
 
 {% block content %} 
@@ -16,9 +29,12 @@
             <h2>
                 UPDATE PAYMENT METHOD
             </h2>
-            <div class="p-3">
-                <form action="">
-                    <!-- FORM -->
+            <div class="py-3">
+                <form action=""> 
+                    <label for="1">Cardholder's Name</label>
+                    <input type="text" class="form-control mb-3" name="1" id="">
+                    <label for="2">ZIP / Postal Code</label>
+                    <input type="text" class="form-control mb-3" name="2" id="">
                     <button class="btn btn-primary rounded-pill px-4">
                         UPDATE
                     </button>
@@ -32,12 +48,12 @@
             <h2>
                 EXTRA BILLING INFORMATION
             </h2>
-            <div class="p-3 my-3 sml">
+            <div class="py-3 my-3 sml">
                 This information will appear on all of your receipts, and is a great place to add your full business name, VAT number, or address of record. Do not include any confidential or financial information such as credit card numbers.
             </div>
             <form action="">
-                <!-- TEXT AREA -->
-                <button class="btn btn-primary rounded-pill px-4">
+                <textarea name="" id="" class="rounded" cols="80" rows="10"></textarea><br> 
+                <button class="btn btn-primary rounded-pill px-4 mt-2">
                     UPDATE
                 </button>
             </form>

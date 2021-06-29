@@ -6,12 +6,11 @@ from django.contrib.auth import views as auth_views
 from .views import (
     home, 
     url,
-    edit,
     register, 
     profile, 
     edit_profile, 
     payment, 
-    brand,  
+    brand, 
     redirect_url_view,
     create,
     update,
@@ -29,7 +28,7 @@ urlpatterns = [
 
     path('urls/', url, name='url-page'),
     path('create/', create, name='create'),
-    path('edit/', edit, name='edit'),
+ 
     path('create/main/', create_main, name='create-main'),
     path('delete/main/<int:pk>', delete_main, name='delete-main'),
     path('edit/main/<int:pk>', update, name='update-main'),

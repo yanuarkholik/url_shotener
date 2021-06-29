@@ -6,10 +6,23 @@
 <title>Profile - {{ user }}</title>
 {% endblock %}
 
+{% block url %} 
+<li class="nav-item m-auto"><a href="{% url 'profile-page' %}" class="sml text-decoration-none text-dark">DASHBOARD</a></li>
+<li class="nav-item m-auto"><a href="{% url 'payment-page' %}" class="sml text-decoration-none text-dark">PAYMENT</a></li>
+<li class="nav-item m-auto"><a href="{% url 'brand-page' %}" class="sml text-decoration-none text-dark">BRAND</a></li>
+<li class="nav-item m-auto text-muted fw-light">|</li>
+<li class="nav-item m-auto"><a href="{% url 'logout-page' %}" class="sml text-decoration-none text-danger">LOGOUT</a></li>
+<li class="nav-item m-auto">
+    <a class="nav-link active hvr" href="{% url 'edit_profile-page' %}" type="button">
+        <img src="{{ user.profile.image.url }}" class="profile-small" alt="" > 
+    </a>
+</li>
+{% endblock %}
+
 {% block content %} 
-<div class="container-fluid">
+<div class="container-fluid p-4">
     <div class="row">
-        <div class="col-lg-12">
+        <div class="col-lg-4">
             <p>
                 Profile
             </p>
@@ -18,22 +31,22 @@
             </h2>
             <span id="img">
                 <img src="{{ user.profile.image.url }}" class="profile-big" alt="">
-            </span> 
-            <form method="POST" id="pf-form">
+            </span> <br>
+            <form method="POST" id="pf-form" >
                 {% csrf_token %}
-                <div class="border-0 m-auto" style="width: 50%;">
+                <div class="border-0 m-auto"  >
                     {% for field in u_form %}
-                    <div class="border-0 m-auto" style="width: 100%;">
+                    <div class="border-0 mb-2" >
                         {{ field }}
                     </div>
                     {% endfor %}
                     {% for field in p_form %}
-                    <div class="border-0 m-auto" style="width: 100%;">
+                    <div class="border-0 mb-2" >
                         {{ field }}
                     </div>
                     {% endfor %}
                 </div>
-                <input type="submit" class="btn rounded-pill px-5 btn-primary" value="UPDATE" />
+                <input type="submit" class="btn rounded-pill my-3 px-5 btn-primary" value="UPDATE" />
             </form>
         </div>
     </div>
